@@ -372,11 +372,7 @@ def register(request):
                 "password": form.cleaned_data["password1"],
             }
 
-            Thread(
-                target=send_otp_email,
-                args=(form.cleaned_data["email"], otp),
-                daemon=True,
-            ).start()
+            send_otp_email(form.cleaned_data["email"],otp)
 
             messages.success(
                 request,
@@ -691,10 +687,9 @@ def request_otp(request):
     request.session["otp"] = str(otp)
     request.session["otp_email"] = email
 
-    Thread(
-    target=send_otp_email,
-    args=(email, otp),
-    daemon=True,).start()
+    send_otp_email(
+    form.cleaned_data["email"],
+    otp)
 
     username_form = AuthenticationForm()
 
@@ -850,11 +845,9 @@ def send_password_otp(request):
 
     request.session["password_otp"] = str(otp)
 
-    Thread(
-        target=send_otp_email,
-        args=(request.user.email, otp),
-        daemon=True,
-    ).start()
+    send_otp_email(
+    form.cleaned_data["email"],
+    otp)
 
     messages.success(
         request,
