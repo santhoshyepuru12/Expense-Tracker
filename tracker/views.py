@@ -372,7 +372,7 @@ def register(request):
                 "password": form.cleaned_data["password1"],
             }
 
-            send_otp_email(form.cleaned_data["email"],otp)
+            send_otp_email(email, otp)
 
             messages.success(
                 request,
@@ -623,13 +623,7 @@ def set_budget(request):
     )
 
 def send_otp_email(email, otp):
-    print("EMAIL_HOST:", settings.EMAIL_HOST)
-    print("EMAIL_PORT:", settings.EMAIL_PORT)
-    print("EMAIL_HOST_USER:", settings.EMAIL_HOST_USER)
-    print("EMAIL_HOST_PASSWORD EXISTS:", bool(settings.EMAIL_HOST_PASSWORD))
-
-
-
+    
     subject = "Expense Tracker - Login Verification"
 
     context = {
@@ -650,12 +644,7 @@ def send_otp_email(email, otp):
 
     message.attach_alternative(html_message, "text/html")
 
-    try:
-        result = message.send(fail_silently=False)
-        print("Email send result:", result)
-    except Exception as e:
-            import traceback
-            traceback.print_exc()
+    message.send()
 
 
 
@@ -687,9 +676,7 @@ def request_otp(request):
     request.session["otp"] = str(otp)
     request.session["otp_email"] = email
 
-    send_otp_email(
-    form.cleaned_data["email"],
-    otp)
+    send_otp_email(email, otp)
 
     username_form = AuthenticationForm()
 
@@ -845,9 +832,7 @@ def send_password_otp(request):
 
     request.session["password_otp"] = str(otp)
 
-    send_otp_email(
-    form.cleaned_data["email"],
-    otp)
+    send_otp_email(email, otp)
 
     messages.success(
         request,
