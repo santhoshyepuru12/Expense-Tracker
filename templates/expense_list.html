@@ -1,0 +1,376 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Expense List
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold mb-1">
+                <i class="bi bi-wallet2 text-primary"></i>
+                Expense List
+            </h2>
+
+            <p class="text-muted mb-0">
+                View, search and manage all your expenses.
+            </p>
+
+        </div>
+
+        <a href="{% url 'add_expense' %}" class="btn btn-primary shadow">
+
+            <i class="bi bi-plus-circle"></i>
+
+            Add Expense
+
+        </a>
+
+    </div>
+
+    <!-- Search Filters -->
+
+    <div class="card border-0 shadow rounded-4 mb-4">
+
+        <div class="card-body">
+
+            <form method="GET" class="row g-3">
+
+                <div class="col-lg-4">
+
+                    <div class="input-group">
+
+                        <span class="input-group-text">
+
+                            <i class="bi bi-search"></i>
+
+                        </span>
+
+                        <input
+                            type="text"
+                            name="search"
+                            class="form-control"
+                            placeholder="Search by title..."
+                            value="{{ request.GET.search }}">
+
+                    </div>
+
+                </div>
+
+                <div class="col-lg-2">
+
+                    <select class="form-select" name="category">
+
+                        <option value="">All Categories</option>
+
+                        <option value="Food"
+                        {% if request.GET.category == "Food" %}selected{% endif %}>
+                            Food
+                        </option>
+
+                        <option value="Travel"
+                        {% if request.GET.category == "Travel" %}selected{% endif %}>
+                            Travel
+                        </option>
+
+                        <option value="Shopping"
+                        {% if request.GET.category == "Shopping" %}selected{% endif %}>
+                            Shopping
+                        </option>
+
+                        <option value="Bills"
+                        {% if request.GET.category == "Bills" %}selected{% endif %}>
+                            Bills
+                        </option>
+
+                        <option value="Entertainment"
+                        {% if request.GET.category == "Entertainment" %}selected{% endif %}>
+                            Entertainment
+                        </option>
+
+                        <option value="Medical"
+                        {% if request.GET.category == "Medical" %}selected{% endif %}>
+                            Medical
+                        </option>
+
+                        <option value="Others"
+                        {% if request.GET.category == "Others" %}selected{% endif %}>
+                            Others
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-lg-2">
+
+                    <input
+                        type="date"
+                        class="form-control"
+                        name="from_date"
+                        value="{{ request.GET.from_date }}">
+
+                </div>
+
+                <div class="col-lg-2">
+
+                    <input
+                        type="date"
+                        class="form-control"
+                        name="to_date"
+                        value="{{ request.GET.to_date }}">
+
+                </div>
+
+                <div class="col-lg-2 d-grid">
+
+                    <button class="btn btn-primary">
+
+                        <i class="bi bi-funnel"></i>
+
+                        Filter
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- Expense Table -->
+
+    <div class="card border-0 shadow rounded-4">
+
+        <div class="card-body p-0">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead class="table-dark">
+
+                        <tr>
+
+                            <th>#</th>
+                            <th>Title</th>
+                            <th>Amount</th>
+                            <th>Category</th>
+                            <th>Date</th>
+                            <th class="text-center">Actions</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for expense in expenses %}
+
+                        <tr>
+
+                            <td>
+
+                                {{ forloop.counter }}
+
+                            </td>
+
+                            <td class="fw-semibold">
+
+                                {{ expense.title }}
+
+                            </td>
+
+                            <td class="fw-bold text-danger">
+
+                                ₹ {{ expense.amount }}
+
+                            </td>
+
+                            <td>
+
+                                {% if expense.category == "Food" %}
+                                <span class="badge bg-success">Food</span>
+
+                                {% elif expense.category == "Travel" %}
+                                <span class="badge bg-info">Travel</span>
+
+                                {% elif expense.category == "Shopping" %}
+                                <span class="badge bg-primary">Shopping</span>
+
+                                {% elif expense.category == "Bills" %}
+                                <span class="badge bg-warning text-dark">Bills</span>
+
+                                {% elif expense.category == "Entertainment" %}
+                                <span class="badge bg-danger">Entertainment</span>
+
+                                {% elif expense.category == "Medical" %}
+                                <span class="badge bg-secondary">Medical</span>
+
+                                {% else %}
+                                <span class="badge bg-dark">Others</span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                {{ expense.date }}
+
+                            </td>
+
+                            <td class="text-center">
+
+                                <a href="{% url 'edit_expense' expense.id %}"
+
+                                   class="btn btn-warning btn-sm me-1">
+
+                                    <i class="bi bi-pencil-square"></i>
+
+                                </a>
+
+                                <a href="{% url 'delete_expense' expense.id %}"
+
+                                   class="btn btn-danger btn-sm"
+
+                                   onclick="return confirm('Delete this expense?')">
+
+                                    <i class="bi bi-trash"></i>
+
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+
+                            <td colspan="6" class="text-center py-5">
+
+                                <i class="bi bi-wallet2 display-5 text-muted d-block mb-3"></i>
+
+                                <h5>No Expenses Found</h5>
+
+                                <p class="text-muted">
+
+                                    Start by adding your first expense.
+
+                                </p>
+
+                                <a href="{% url 'add_expense' %}"
+
+                                   class="btn btn-primary">
+
+                                    <i class="bi bi-plus-circle"></i>
+
+                                    Add Expense
+
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Pagination -->
+
+    {% if expenses.has_other_pages %}
+
+    <nav class="mt-4">
+
+        <ul class="pagination justify-content-center">
+
+            {% if expenses.has_previous %}
+
+            <li class="page-item">
+
+                <a class="page-link"
+
+                href="?page={{ expenses.previous_page_number }}&search={{ request.GET.search }}&category={{ request.GET.category }}&from_date={{ request.GET.from_date }}&to_date={{ request.GET.to_date }}">
+
+                    Previous
+
+                </a>
+
+            </li>
+
+            {% endif %}
+
+            {% for num in expenses.paginator.page_range %}
+
+                {% if expenses.number == num %}
+
+                <li class="page-item active">
+
+                    <span class="page-link">
+
+                        {{ num }}
+
+                    </span>
+
+                </li>
+
+                {% else %}
+
+                <li class="page-item">
+
+                    <a class="page-link"
+
+                    href="?page={{ num }}&search={{ request.GET.search }}&category={{ request.GET.category }}&from_date={{ request.GET.from_date }}&to_date={{ request.GET.to_date }}">
+
+                        {{ num }}
+
+                    </a>
+
+                </li>
+
+                {% endif %}
+
+            {% endfor %}
+
+            {% if expenses.has_next %}
+
+            <li class="page-item">
+
+                <a class="page-link"
+
+                href="?page={{ expenses.next_page_number }}&search={{ request.GET.search }}&category={{ request.GET.category }}&from_date={{ request.GET.from_date }}&to_date={{ request.GET.to_date }}">
+
+                    Next
+
+                </a>
+
+            </li>
+
+            {% endif %}
+
+        </ul>
+
+    </nav>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

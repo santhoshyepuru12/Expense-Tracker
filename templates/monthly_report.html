@@ -1,0 +1,392 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Monthly Report
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- Header -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold mb-1">
+
+                <i class="bi bi-calendar3 text-primary"></i>
+
+                Monthly Expense Report
+
+            </h2>
+
+            <p class="text-muted mb-0">
+
+                Analyze your monthly spending and export reports.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- Month Filter -->
+
+    <div class="card border-0 shadow rounded-4 mb-4">
+
+        <div class="card-body">
+
+            <form method="GET" class="row g-3 align-items-end">
+
+                <div class="col-lg-8">
+
+                    <label class="form-label fw-semibold">
+
+                        Select Month
+
+                    </label>
+
+                    <input
+                        type="month"
+                        name="month"
+                        class="form-control"
+                        value="{{ selected_month }}"
+                        required>
+
+                </div>
+
+                <div class="col-lg-4 d-grid">
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary">
+
+                        <i class="bi bi-search me-2"></i>
+
+                        View Report
+
+                    </button>
+
+                </div>
+
+            </form>
+
+            {% if selected_month %}
+
+            <hr>
+
+            <div class="d-flex flex-wrap gap-3">
+
+                <a
+                    href="{% url 'export_monthly_pdf' %}?month={{ selected_month }}"
+                    class="btn btn-danger">
+
+                    <i class="bi bi-file-earmark-pdf me-2"></i>
+
+                    Export PDF
+
+                </a>
+
+                <a
+                    href="{% url 'export_monthly_excel' %}?month={{ selected_month }}"
+                    class="btn btn-success">
+
+                    <i class="bi bi-file-earmark-excel me-2"></i>
+
+                    Export Excel
+
+                </a>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <!-- Summary Cards -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card border-0 shadow rounded-4 h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+
+                            <small class="text-muted">
+
+                                Total Expense
+
+                            </small>
+
+                            <h3 class="fw-bold text-primary mt-2">
+
+                                ₹ {{ total_expense }}
+
+                            </h3>
+
+                        </div>
+
+                        <div class="bg-primary bg-opacity-10 rounded-circle p-3">
+
+                            <i class="bi bi-wallet2 fs-3 text-primary"></i>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card border-0 shadow rounded-4 h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+
+                            <small class="text-muted">
+
+                                Transactions
+
+                            </small>
+
+                            <h3 class="fw-bold text-success mt-2">
+
+                                {{ total_transactions }}
+
+                            </h3>
+
+                        </div>
+
+                        <div class="bg-success bg-opacity-10 rounded-circle p-3">
+
+                            <i class="bi bi-receipt fs-3 text-success"></i>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card border-0 shadow rounded-4 h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+
+                            <small class="text-muted">
+
+                                Highest Expense
+
+                            </small>
+
+                            <h3 class="fw-bold text-warning mt-2">
+
+                                ₹ {{ highest_expense }}
+
+                            </h3>
+
+                        </div>
+
+                        <div class="bg-warning bg-opacity-10 rounded-circle p-3">
+
+                            <i class="bi bi-arrow-up-circle fs-3 text-warning"></i>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card border-0 shadow rounded-4 h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+
+                            <small class="text-muted">
+
+                                Lowest Expense
+
+                            </small>
+
+                            <h3 class="fw-bold text-danger mt-2">
+
+                                ₹ {{ lowest_expense }}
+
+                            </h3>
+
+                        </div>
+
+                        <div class="bg-danger bg-opacity-10 rounded-circle p-3">
+
+                            <i class="bi bi-arrow-down-circle fs-3 text-danger"></i>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Transactions -->
+
+    <div class="card border-0 shadow rounded-4">
+
+        <div class="card-header bg-dark text-white rounded-top-4 py-3">
+
+            <h5 class="mb-0">
+
+                <i class="bi bi-table me-2"></i>
+
+                Monthly Transactions
+
+            </h5>
+
+        </div>
+
+        <div class="card-body p-0">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead class="table-light">
+
+                        <tr>
+
+                            <th>Title</th>
+
+                            <th>Category</th>
+
+                            <th>Amount</th>
+
+                            <th>Date</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for expense in expenses %}
+
+                        <tr>
+
+                            <td class="fw-semibold">
+
+                                {{ expense.title }}
+
+                            </td>
+
+                            <td>
+
+                                {% if expense.category == "Food" %}
+                                <span class="badge bg-success">Food</span>
+
+                                {% elif expense.category == "Travel" %}
+                                <span class="badge bg-info">Travel</span>
+
+                                {% elif expense.category == "Shopping" %}
+                                <span class="badge bg-primary">Shopping</span>
+
+                                {% elif expense.category == "Bills" %}
+                                <span class="badge bg-warning text-dark">Bills</span>
+
+                                {% elif expense.category == "Entertainment" %}
+                                <span class="badge bg-danger">Entertainment</span>
+
+                                {% elif expense.category == "Medical" %}
+                                <span class="badge bg-secondary">Medical</span>
+
+                                {% else %}
+                                <span class="badge bg-dark">Others</span>
+                                {% endif %}
+
+                            </td>
+
+                            <td class="fw-bold text-danger">
+
+                                ₹ {{ expense.amount }}
+
+                            </td>
+
+                            <td>
+
+                                {{ expense.date }}
+
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+
+                            <td colspan="4" class="text-center py-5">
+
+                                <i class="bi bi-calendar-x display-5 text-muted d-block mb-3"></i>
+
+                                <h5>No Expenses Found</h5>
+
+                                <p class="text-muted mb-0">
+
+                                    No expenses are available for the selected month.
+
+                                </p>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

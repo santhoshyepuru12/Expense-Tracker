@@ -1,0 +1,562 @@
+/* ==========================================
+   GLOBAL
+========================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    font-family:'Segoe UI',sans-serif;
+
+    background:#f5f8ff;
+
+    color:#222;
+
+    overflow-x:hidden;
+
+}
+
+a{
+    text-decoration:none;
+}
+
+/* ==========================================
+   NAVBAR
+========================================== */
+
+.navbar{
+
+    background:linear-gradient(90deg,#0d6efd,#4f8cff)!important;
+
+    padding:15px 0;
+
+}
+
+.navbar-brand{
+
+    font-weight:700;
+
+    font-size:24px;
+
+}
+
+.nav-link{
+
+    color:#fff!important;
+
+    margin-left:15px;
+
+    transition:.3s;
+
+}
+
+.nav-link:hover{
+
+    transform:translateY(-2px);
+
+    opacity:.9;
+
+}
+
+/* ==========================================
+   LOGIN PAGE
+========================================== */
+
+.login-page{
+
+    position:relative;
+
+    overflow:hidden;
+
+    background:linear-gradient(135deg,#eef5ff,#ffffff);
+
+}
+
+/* ==========================================
+   BACKGROUND SHAPES
+========================================== */
+
+.bg-shape{
+
+    position:absolute;
+
+    border-radius:50%;
+
+    filter:blur(35px);
+
+    opacity:.22;
+
+    animation:float 8s ease-in-out infinite;
+
+}
+
+.shape1{
+
+    width:330px;
+
+    height:330px;
+
+    background:#0d6efd;
+
+    top:-120px;
+
+    left:-120px;
+
+}
+
+.shape2{
+
+    width:260px;
+
+    height:260px;
+
+    background:#6ea8fe;
+
+    right:-90px;
+
+    top:120px;
+
+    animation-delay:2s;
+
+}
+
+.shape3{
+
+    width:240px;
+
+    height:240px;
+
+    background:#d6e7ff;
+
+    bottom:-90px;
+
+    left:35%;
+
+    animation-delay:4s;
+
+}
+
+@keyframes float{
+
+0%{
+transform:translateY(0px);
+}
+
+50%{
+transform:translateY(-20px);
+}
+
+100%{
+transform:translateY(0px);
+}
+
+}
+
+/* ==========================================
+   HERO
+========================================== */
+
+.hero-section{
+
+    animation:slideLeft .9s ease;
+
+}
+
+.hero-section h1{
+
+    font-weight:800;
+
+    background:linear-gradient(90deg,#0d6efd,#4f8cff);
+
+    -webkit-background-clip:text;
+
+    -webkit-text-fill-color:transparent;
+
+}
+
+.hero-section .lead{
+
+    line-height:1.8;
+
+    color:#666;
+
+}
+
+/* ==========================================
+   STATS
+========================================== */
+
+.stats{
+
+    display:flex;
+
+    gap:45px;
+
+}
+
+.stats h2{
+
+    color:#0d6efd;
+
+    font-weight:700;
+
+}
+
+.stats p{
+
+    color:#777;
+
+}
+
+/* ==========================================
+   FEATURE CARD
+========================================== */
+
+.feature-card{
+
+    background:#fff;
+
+    border-radius:18px;
+
+    padding:28px;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.07);
+
+    transition:.35s;
+
+    border:1px solid #eef3ff;
+
+    height:100%;
+
+}
+
+.feature-card:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:0 20px 50px rgba(13,110,253,.18);
+
+}
+
+.feature-card i{
+
+    font-size:42px;
+
+    color:#0d6efd;
+
+    margin-bottom:18px;
+
+    transition:.3s;
+
+}
+
+.feature-card:hover i{
+
+    transform:scale(1.15);
+
+}
+
+.feature-card h5{
+
+    font-weight:700;
+
+}
+
+.feature-card p{
+
+    color:#666;
+
+    margin-bottom:0;
+
+}
+
+/* ==========================================
+   LOGIN CARD
+========================================== */
+
+.login-card{
+
+    background:rgba(255,255,255,.88);
+
+    backdrop-filter:blur(15px);
+
+    border-radius:25px;
+
+    padding:45px;
+
+    border:1px solid rgba(255,255,255,.4);
+
+    box-shadow:0 25px 60px rgba(0,0,0,.12);
+
+    animation:slideRight .9s ease;
+
+    transition:.3s;
+
+}
+
+.login-card:hover{
+
+    transform:translateY(-5px);
+
+}
+
+.login-card h2{
+
+    font-weight:700;
+
+}
+
+.login-card h3{
+
+    font-weight:700;
+
+}
+
+/* ==========================================
+   LOGIN OPTIONS
+========================================== */
+
+.login-option{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:20px;
+
+    width:100%;
+
+    background:#fff;
+
+    padding:18px;
+
+    border-radius:15px;
+
+    border:1px solid #e9ecef;
+
+    transition:.3s;
+
+    cursor:pointer;
+
+}
+
+.login-option:hover{
+
+    background:#0d6efd;
+
+    color:#fff;
+
+    transform:translateY(-3px);
+
+    box-shadow:0 15px 35px rgba(13,110,253,.25);
+
+}
+
+.login-option:hover small{
+
+    color:#edf4ff;
+
+}
+
+.login-option i{
+
+    font-size:30px;
+
+}
+
+.login-option h5{
+
+    margin-bottom:3px;
+
+}
+
+/* ==========================================
+   FORM
+========================================== */
+
+.form-control{
+
+    border-radius:10px;
+
+    padding:12px;
+
+}
+
+.btn{
+
+    border-radius:10px;
+
+}
+
+.btn-lg{
+
+    padding:12px;
+
+}
+
+/* ==========================================
+   ALERTS
+========================================== */
+
+.alert{
+
+    border-radius:12px;
+
+}
+
+
+/* ==========================================
+   ANIMATION
+========================================== */
+
+@keyframes slideLeft{
+
+from{
+
+opacity:0;
+
+transform:translateX(-40px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateX(0);
+
+}
+
+}
+
+@keyframes slideRight{
+
+from{
+
+opacity:0;
+
+transform:translateX(40px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateX(0);
+
+}
+
+}
+
+/* ==========================================
+   DASHBOARD CARDS
+========================================== */
+
+.card{
+
+    border:none;
+
+    border-radius:16px;
+
+    box-shadow:0 12px 35px rgba(0,0,0,.07);
+
+}
+
+.card-header{
+
+    border-radius:16px 16px 0 0!important;
+
+}
+
+.table thead th{
+
+    padding:16px;
+
+}
+
+.table tbody td{
+
+    padding:16px;
+
+}
+
+/* ==========================================
+   CHART
+========================================== */
+
+canvas{
+
+    max-height:420px;
+
+}
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media(max-width:992px){
+
+.hero-section{
+
+text-align:center;
+
+}
+
+.stats{
+
+justify-content:center;
+
+margin-top:40px;
+
+}
+
+.login-card{
+
+margin-top:20px;
+
+}
+
+}
+
+@media(max-width:768px){
+
+.hero-section h1{
+
+font-size:38px;
+
+}
+
+.stats{
+
+flex-direction:column;
+
+gap:20px;
+
+}
+
+.login-card{
+
+padding:28px;
+
+}
+
+.feature-card{
+
+padding:20px;
+
+}
+
+.nav-link{
+
+margin-left:0;
+
+padding:10px 0;
+
+}
+
+}

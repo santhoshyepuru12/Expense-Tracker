@@ -1,0 +1,312 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Add Expense
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="row justify-content-center">
+
+        <div class="col-xl-8 col-lg-9">
+
+            <div class="card border-0 shadow-lg rounded-4">
+
+                <div class="card-header bg-primary text-white rounded-top-4 py-4">
+
+                    <div class="d-flex align-items-center">
+
+                        <div class="bg-white bg-opacity-25 rounded-circle p-3 me-3">
+
+                            <i class="bi bi-wallet2 fs-3"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h2 class="mb-1 fw-bold">
+
+                                Add New Expense
+
+                            </h2>
+
+                            <p class="mb-0">
+
+                                Record your spending and keep your finances organized.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="card-body p-4 p-lg-5">
+
+                    <form method="POST" id="expenseForm">
+
+                        {% csrf_token %}
+
+                        {% if form.errors %}
+
+                        <div class="alert alert-danger rounded-4">
+
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+
+                            Please correct the highlighted fields below.
+
+                        </div>
+
+                        {% endif %}
+
+                        <!-- Expense Title -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+
+                                <i class="bi bi-pencil-square text-primary me-2"></i>
+
+                                Expense Title
+
+                            </label>
+
+                            <div class="input-group">
+
+                                <span class="input-group-text">
+
+                                    <i class="bi bi-type"></i>
+
+                                </span>
+
+                                {{ form.title }}
+
+                            </div>
+
+                            <div class="form-text">
+
+                                Example: Grocery Shopping, Electricity Bill
+
+                            </div>
+
+                            {{ form.title.errors }}
+
+                        </div>
+
+                        <div class="row">
+
+                            <!-- Amount -->
+
+                            <div class="col-md-6 mb-4">
+
+                                <label class="form-label fw-semibold">
+
+                                    <i class="bi bi-currency-rupee text-success me-2"></i>
+
+                                    Amount
+
+                                </label>
+
+                                <div class="input-group">
+
+                                    <span class="input-group-text">
+
+                                        ₹
+
+                                    </span>
+
+                                    {{ form.amount }}
+
+                                </div>
+
+                                <div class="form-text">
+
+                                    Enter the total amount spent.
+
+                                </div>
+
+                                {{ form.amount.errors }}
+
+                            </div>
+
+                            <!-- Category -->
+
+                            <div class="col-md-6 mb-4">
+
+                                <label class="form-label fw-semibold">
+
+                                    <i class="bi bi-tags text-warning me-2"></i>
+
+                                    Category
+
+                                </label>
+
+                                <div class="input-group">
+
+                                    <span class="input-group-text">
+
+                                        <i class="bi bi-grid"></i>
+
+                                    </span>
+
+                                    {{ form.category }}
+
+                                </div>
+
+                                <div class="form-text">
+
+                                    Choose the appropriate category.
+
+                                </div>
+
+                                {{ form.category.errors }}
+
+                            </div>
+
+                        </div>
+
+                        <!-- Date -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+
+                                <i class="bi bi-calendar-event text-danger me-2"></i>
+
+                                Expense Date
+
+                            </label>
+
+                            <div class="input-group">
+
+                                <span class="input-group-text">
+
+                                    <i class="bi bi-calendar3"></i>
+
+                                </span>
+
+                                {{ form.date }}
+
+                            </div>
+
+                            {{ form.date.errors }}
+
+                        </div>
+
+                        <!-- Description -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+
+                                <i class="bi bi-card-text text-info me-2"></i>
+
+                                Description
+
+                                <span class="text-muted fw-normal">
+
+                                    (Optional)
+
+                                </span>
+
+                            </label>
+
+                            {{ form.description }}
+
+                            <div class="form-text">
+
+                                Add notes or details about this expense.
+
+                            </div>
+
+                            {{ form.description.errors }}
+
+                        </div>
+
+                        <hr class="my-4">
+
+                        <!-- Buttons -->
+
+                        <div class="d-flex flex-wrap gap-3 justify-content-between">
+
+                            <div>
+
+                                <button
+                                    type="submit"
+                                    id="saveBtn"
+                                    class="btn btn-primary px-4">
+
+                                    <span id="btnText">
+
+                                        <i class="bi bi-check-circle me-2"></i>
+
+                                        Save Expense
+
+                                    </span>
+
+                                    <span
+                                        id="btnLoading"
+                                        class="d-none">
+
+                                        <span class="spinner-border spinner-border-sm me-2"></span>
+
+                                        Saving...
+
+                                    </span>
+
+                                </button>
+
+                                <button
+                                    type="reset"
+                                    class="btn btn-outline-warning">
+
+                                    <i class="bi bi-arrow-counterclockwise me-2"></i>
+
+                                    Reset
+
+                                </button>
+
+                            </div>
+
+                            <a
+                                href="{% url 'expense_list' %}"
+                                class="btn btn-outline-secondary">
+
+                                <i class="bi bi-arrow-left me-2"></i>
+
+                                Back to Expenses
+
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+document.getElementById("expenseForm").addEventListener("submit", function () {
+
+    document.getElementById("btnText").classList.add("d-none");
+
+    document.getElementById("btnLoading").classList.remove("d-none");
+
+    document.getElementById("saveBtn").disabled = true;
+
+});
+
+</script>
+
+{% endblock %}

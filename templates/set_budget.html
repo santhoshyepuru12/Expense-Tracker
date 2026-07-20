@@ -1,0 +1,219 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Monthly Budget
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-7">
+
+            <div class="card border-0 shadow-lg rounded-4">
+
+                <div class="card-header bg-primary text-white rounded-top-4 py-4">
+
+                    <div class="d-flex align-items-center">
+
+                        <div class="bg-white bg-opacity-25 rounded-circle p-3 me-3">
+
+                            <i class="bi bi-wallet2 fs-3"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h2 class="fw-bold mb-1">
+
+                                Set Monthly Budget
+
+                            </h2>
+
+                            <p class="mb-0">
+
+                                Plan your monthly spending and stay within your financial goals.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="card-body p-4 p-lg-5">
+
+                    <div class="alert alert-primary border-0 rounded-4 mb-4">
+
+                        <div class="d-flex">
+
+                            <i class="bi bi-lightbulb-fill fs-4 me-3"></i>
+
+                            <div>
+
+                                <strong>Budget Planning Tip</strong>
+
+                                <p class="mb-0">
+
+                                    Setting a realistic monthly budget helps you track expenses,
+                                    reduce unnecessary spending, and improve your savings.
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <form method="POST" id="budgetForm">
+
+                        {% csrf_token %}
+
+                        {% if form.errors %}
+
+                        <div class="alert alert-danger rounded-4">
+
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+
+                            Please correct the highlighted fields.
+
+                        </div>
+
+                        {% endif %}
+
+                        {% for field in form %}
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+
+                                {{ field.label }}
+
+                            </label>
+
+                            <div class="input-group">
+
+                                <span class="input-group-text">
+
+                                    {% if "amount" in field.name|lower or "budget" in field.name|lower %}
+
+                                    ₹
+
+                                    {% elif "month" in field.name|lower %}
+
+                                    <i class="bi bi-calendar3"></i>
+
+                                    {% else %}
+
+                                    <i class="bi bi-pencil"></i>
+
+                                    {% endif %}
+
+                                </span>
+
+                                {{ field }}
+
+                            </div>
+
+                            {% if field.help_text %}
+
+                            <div class="form-text">
+
+                                {{ field.help_text }}
+
+                            </div>
+
+                            {% endif %}
+
+                            {{ field.errors }}
+
+                        </div>
+
+                        {% endfor %}
+
+                        <hr class="my-4">
+
+                        <div class="d-flex flex-wrap gap-3 justify-content-between">
+
+                            <div>
+
+                                <button
+                                    type="submit"
+                                    id="saveBtn"
+                                    class="btn btn-primary px-4">
+
+                                    <span id="btnText">
+
+                                        <i class="bi bi-check-circle me-2"></i>
+
+                                        Save Budget
+
+                                    </span>
+
+                                    <span
+                                        id="btnLoading"
+                                        class="d-none">
+
+                                        <span class="spinner-border spinner-border-sm me-2"></span>
+
+                                        Saving...
+
+                                    </span>
+
+                                </button>
+
+                                <button
+                                    type="reset"
+                                    class="btn btn-outline-warning">
+
+                                    <i class="bi bi-arrow-counterclockwise me-2"></i>
+
+                                    Reset
+
+                                </button>
+
+                            </div>
+
+                            <a
+                                href="{% url 'dashboard' %}"
+                                class="btn btn-outline-secondary">
+
+                                <i class="bi bi-arrow-left me-2"></i>
+
+                                Back to Dashboard
+
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+document.getElementById("budgetForm").addEventListener("submit", function () {
+
+    document.getElementById("btnText").classList.add("d-none");
+
+    document.getElementById("btnLoading").classList.remove("d-none");
+
+    document.getElementById("saveBtn").disabled = true;
+
+});
+
+</script>
+
+{% endblock %}
