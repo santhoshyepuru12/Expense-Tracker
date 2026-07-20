@@ -654,7 +654,12 @@ def send_otp_email(email, otp):
 
     message.attach_alternative(html_message, "text/html")
 
-    message.send()
+    try:
+        result = message.send(fail_silently=False)
+        print("Email send result:", result)
+    except Exception as e:
+            import traceback
+            traceback.print_exc()
 
 
 
