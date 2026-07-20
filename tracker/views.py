@@ -627,6 +627,12 @@ def set_budget(request):
     )
 
 def send_otp_email(email, otp):
+    print("EMAIL_HOST:", settings.EMAIL_HOST)
+    print("EMAIL_PORT:", settings.EMAIL_PORT)
+    print("EMAIL_HOST_USER:", settings.EMAIL_HOST_USER)
+    print("EMAIL_HOST_PASSWORD EXISTS:", bool(settings.EMAIL_HOST_PASSWORD))
+
+
 
     subject = "Expense Tracker - Login Verification"
 
